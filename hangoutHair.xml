@@ -233,8 +233,8 @@ var App = function(canvas) {
                             this._miny = 0;
                     if(this._maxy > window.innerHeight)
                             this._maxy = window.innerHeight;
-                    ctx.translate(0,0);
-                    ctx.scale(-1,-1);
+                            
+                    
                     ctx.clearRect(this._minx,this._miny,this._maxx - this._minx,this._maxy+this._miny);
                     //_man.fillStyle = "rgba(255,0,0,1)";
                     //_man.fillRect(this._minx,this._miny,this._maxx - this._minx,this._maxy+this._miny);
@@ -316,8 +316,8 @@ var App = function(canvas) {
     };
     
     this.changeHeadPos = function(evt) {
-        _mouseX = Math.floor(evt.upperLip.x * 1000);
-        _mouseY = Math.floor(evt.upperLip.y * 1000);
+        _mouseX = Math.floor(evt.upperLip.x * -1000) + 320;
+        _mouseY = Math.floor(evt.upperLip.y * 100) + 170;
     }
     
 };
@@ -362,7 +362,13 @@ function init() {
         height: height,
         position: 'fixed',
         top: 0,
-        left: 0
+        'margin-left': '50%',
+        left: '-320px',
+        'z-index': 9999999999
+    });
+    
+    $('object').css({
+        'z-index': -1
     });
 
     var canvas = document.getElementById('canvas');
@@ -373,6 +379,14 @@ function init() {
     gapi.hangout.onApiReady.add(function(eventObj) {
         if (eventObj.isApiReady) {
             gapi.hangout.av.effects.onFaceTrackingDataChanged.add(doSomething);
+            
+            // NOTE: Google does not allow you to overlay a canvas on top of this video feed, need help from google
+            var feed = gapi.hangout.layout.getDefaultVideoFeed();
+            var canvas = gapi.hangout.layout.getVideoCanvas();
+            canvas.setVideoFeed(feed);
+            canvas.setWidth(600);
+            canvas.setPosition(300, 50);
+            canvas.setVisible(true);
         }
     });
 }
