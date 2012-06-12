@@ -1,5 +1,5 @@
-function Rope(ctx)
-{
+function Rope(ctx) {
+    
 	// Stick properties
 	
 	this.mass = 1;
@@ -40,10 +40,10 @@ function Rope(ctx)
 	this.targetY = 0;
 	this._rotation = 0;
 	
-	this.init = function() 
-	{
-		for (var i = 0; i <= this.div; i++) 
-		{
+	this.init = function() {
+            
+		for (var i = 0; i <= this.div; i++) {
+                    
 			this.pX[i] = 10 + (this.lenDiv * this.pm * i);
 			this.pY[i] = 10;
 			this.oX[i] = 10 + (this.lenDiv * this.pm * i);
@@ -55,9 +55,9 @@ function Rope(ctx)
 		//addEventListener(Event.ENTER_FRAME, frame);
 	}
 	
-	this.calculateNewCordinates = function(xx,yy)
-	{
-		//alert("calculate " + this.)
+	this.calculateNewCordinates = function(xx,yy) {
+		
+                //alert("calculate " + this.)
 		var newx = Math.cos(this._rotation)*xx + Math.sin(this._rotation)*yy;
 		var newy = -Math.sin(this._rotation)*xx + Math.cos(this._rotation)*yy;
 		
@@ -65,8 +65,8 @@ function Rope(ctx)
 		
 	}
 	
-	this.calculateAngle = function()
-	{
+	this.calculateAngle = function() {
+            
 		var adjside = mouseX-this.targetX;
 
 		var oppside = -1*(mouseY-this.targetY);
@@ -76,84 +76,58 @@ function Rope(ctx)
 		return angle;
 	}
 	
-	this.draw = function(obj) 
-	{	
-		//this._rotation  = (this.calculateAngle());
-		//var hypo = Math.sqrt((mouseX - this.targetX)*(mouseX - this.targetX) + (mouseY - this.targetY)*(mouseY - this.targetY));
-		//alert("mousex " + mouseX);
-		//alert(mouseX + " " + this.targetX + " Ã¤r hyrp");
-		//var rot = Math.atan((mouseX - this.targetX)/(mouseY - this.targetY));
-		//this._rotation = rot;
-		//alert(rot + " " + hypo);
-		//this._offsetx = posx;
-		//this._offsety = posy;
+	this.draw = function(obj)  {
+            
 		this.pm = 120;
-		//this.x = character.x;
-		
-		//this.pX[0] += (mouseX + this.diffX - this.pX[0])/10; // target x  anchorpoint
-		//this.pY[0] = mouseY; // target y
-		
+	
 		this._rotation = -(mouseX - this.targetX)/400;
 		this.targetX += (mouseX - this.targetX)/20;
 		this.targetY += (mouseY - this.targetY)/20;
 		
-		
-		
 		this.accForces();
 		this.verlet();
 		///checkColl();
-		for (var j = 0; j <= this.div;j++)
-		{
+		for (var j = 0; j <= this.div;j++) {
 			this.satConstraints();
 		}
 		
-	
-				_man.lineWidth = 0.1 ;
-				_man.strokeStyle = 'rgba(255,255,255,1)';
-				
-				
-				
-				
-				_man.beginPath();
-				
-				
-				
-				
-				for (var i = 0; i <= this.div; i++) {
-					_man.lineTo(this.pX[i], this.pY[i]);
-					
-					if(this.pX[i] < obj._minx)
-					{
-						obj._minx = this.pX[i];
-					}
-					if(this.pX[i] > obj._maxx)
-					{
-						obj._maxx = this.pX[i];
-					}
-					
-					if(this.pY[i] < obj._miny)
-					{
-						obj._miny = this.pY[i];
-					}
-					if(this.pY[i] > obj._maxy)
-					{
-						obj._maxy = this.pY[i];
-					}
-					
-				}
-				
-				
-				_man.stroke();
-				_man.closePath();
-				
-		
+
+                _man.lineWidth = 0.1 ;
+                _man.strokeStyle = 'rgba(255,255,255,1)';
+
+                _man.beginPath();
+
+                for (var i = 0; i <= this.div; i++) {
+                        _man.lineTo(this.pX[i], this.pY[i]);
+
+                        if(this.pX[i] < obj._minx)
+                        {
+                                obj._minx = this.pX[i];
+                        }
+                        if(this.pX[i] > obj._maxx)
+                        {
+                                obj._maxx = this.pX[i];
+                        }
+
+                        if(this.pY[i] < obj._miny)
+                        {
+                                obj._miny = this.pY[i];
+                        }
+                        if(this.pY[i] > obj._maxy)
+                        {
+                                obj._maxy = this.pY[i];
+                        }
+
+                }
+
+                _man.stroke();
+                _man.closePath();
 		
 	}
 	
-	this.verlet = function() 
-	{
-		for (var i = 0; i <= this.div; i++) 
-		{
+	this.verlet = function() {
+            
+		for (var i = 0; i <= this.div; i++) {
 			
 			var tempX = this.pX[i];
 			this.pX[i] += ((0.99*this.pX[i] - 0.99*this.oX[i]) + (this.aX[i] * this.pm * this.dt * this.dt));
@@ -164,16 +138,14 @@ function Rope(ctx)
 		}
 	}
 	
-	this.accForces = function() 
-	{
-		for (var i = 1; i <= this.div; i++) 
-		{
+	this.accForces = function() {
+            
+		for (var i = 1; i <= this.div; i++) {
 			this.aY[i] = this.g;
 		}
 	}
 	
-	this.satConstraints = function() 
-	{
+	this.satConstraints = function() {
 		
 		var h = this.calculateNewCordinates(this.diffX,this.diffY);
 		//alert(h);
@@ -182,8 +154,7 @@ function Rope(ctx)
 		
 		this.pY[0] = this.targetY + h[1] // target y
 		
-		for (var i = 1; i <= this.div; i++) 
-		{
+		for (var i = 1; i <= this.div; i++) {
 			
 			var dx = (this.pX[i] - this.pX[i - 1]) / this.pm;
 			var dy = (this.pY[i] - this.pY[i - 1]) / this.pm;

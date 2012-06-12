@@ -1,5 +1,4 @@
-function RenderEngine()
-{
+function RenderEngine() {
 	
 	this._objects = [];
 	this.fLen = 1000;
@@ -14,8 +13,7 @@ function RenderEngine()
 	this._maxx = 0;
 	this._maxy = 0;
 	
-	this.render = function()
-	{
+	this.render = function() {
 		//alert("minx " + this._minx + " miny " + this._miny);
 		
 		this._minx -=2;
@@ -47,20 +45,17 @@ function RenderEngine()
 		this.theta +=0.05;
 		//alert("render");
 		
-		for(var i = 0;i<this._objects.length;i++)
-		{
+		for(var i = 0;i<this._objects.length;i++) {
 			//alert(this._objects[i]);
 			this._objects[i].draw(this);
 		}
 	}
 	
-	this.addBranch = function()
-	{
+	this.addBranch = function() {
 		this._objects.push(new Branch());
 	}
 	
-	this.addRope = function()
-	{
+	this.addRope = function() {
 		var r = new Rope();
 		r.g = 10 + 10 * Math.random();
 		r.pm = 50 + 50 * Math.random();
