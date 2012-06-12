@@ -11,8 +11,38 @@ Author: Mike Newell © 2012
         <link rel="stylesheet" type="text/css" href="css/style.css" />
     </head>
     <body>
-        <div>TODO write content</div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <script></script>
+        <div>
+            <canvas id="canvas">
+                Unfortunately you don't have a browser that supports the canvas tag! Click <a href="http://www.mozilla.org/en-US/firefox/new/">here</a> to get one!
+            </canvas>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>\
+        <script src="js/branch.js"></script>
+        <script src="js/rope.js"></script>
+        <script src="js/renderEngine.js"></script> 
+        <script src="js/app.js"></script>
+        <script>
+            (function(window) {
+                $(window).load(function() {
+                    
+                    var width = $(window).width();
+                    var height = $(window).height();
+                    
+                    $('#canvas').css({
+                        width: width,
+                        height: height,
+                        position: 'fixed',
+                        top: 0,
+                        left: 0
+                    });
+                    
+                    var canvas = document.getElementById('canvas');
+                    
+                    var app = new App(canvas);
+                    
+                    app.init();
+                });
+            }(window));
+        </script>
     </body>
 </html>
