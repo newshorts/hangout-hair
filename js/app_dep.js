@@ -1,7 +1,8 @@
 /* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *  Hair Demo in a hangout session - this shit has to be efficient
  */
+
+
 var App = function(canvas) {
     var _canvas = canvas,
         _ctx = _canvas.getContext('2d'),
@@ -93,7 +94,7 @@ var App = function(canvas) {
             this.draw = function(obj)  {
                 
 //                console.log('sanity - drawing branch ' + _mouseX);
-//                alert('draw function working');
+
                     this.pm = 120;
 
                     this._rotation = -(_mouseX - this.targetX)/400;
@@ -107,24 +108,29 @@ var App = function(canvas) {
                             this.satConstraints();
                     }
 
-                    ctx.lineWidth = 1;
+                    ctx.lineWidth = 0.1;
                     ctx.strokeStyle = 'rgba(10,10,10,1)';
+
                     ctx.beginPath();
 
                     for (var i = 0; i <= this.div; i++) {
                             ctx.lineTo(this.pX[i], this.pY[i]);
 
-                            if(this.pX[i] < obj._minx) {
+                            if(this.pX[i] < obj._minx)
+                            {
                                     obj._minx = this.pX[i];
                             }
-                            if(this.pX[i] > obj._maxx) {
+                            if(this.pX[i] > obj._maxx)
+                            {
                                     obj._maxx = this.pX[i];
                             }
 
-                            if(this.pY[i] < obj._miny) {
+                            if(this.pY[i] < obj._miny)
+                            {
                                     obj._miny = this.pY[i];
                             }
-                            if(this.pY[i] > obj._maxy) {
+                            if(this.pY[i] > obj._maxy)
+                            {
                                     obj._maxy = this.pY[i];
                             }
 
@@ -176,7 +182,6 @@ var App = function(canvas) {
                             this.pY[i - 1] += (dy / d) * 0.5 *this.pm* diff;
                     }
             }
-            
             this.init();
     }
 
@@ -215,8 +220,8 @@ var App = function(canvas) {
                             this._miny = 0;
                     if(this._maxy > window.innerHeight)
                             this._maxy = window.innerHeight;
-                            
-                    
+
+
                     ctx.clearRect(this._minx,this._miny,this._maxx - this._minx,this._maxy+this._miny);
                     //_man.fillStyle = "rgba(255,0,0,1)";
                     //_man.fillRect(this._minx,this._miny,this._maxx - this._minx,this._maxy+this._miny);
@@ -238,18 +243,6 @@ var App = function(canvas) {
                             
                     }
                     
-            }
-            /*
-            
-                NOTE: request animation frame chugs and doesnt clear the canvas as easily as a interval loop would
-            
-            */
-            this.animate = function() {
-                this.render();
-                var self = this;
-                requestAnimFrame(function () {
-                    self.animate();
-                });
             }
 
             this.addRope = function() {
@@ -273,33 +266,32 @@ var App = function(canvas) {
         _mouseY = 100;
         
         // moved to new function that gets your heads position
-//        $(_canvas).mousemove(function(evt) {
-//            _mouseX = evt.clientX;
-//           _mouseY = evt.clientY;
-//            console.log('sanity - detecting mousemove');
-//        });
+        $(_canvas).mousemove(function(evt) {
+            _mouseX = evt.clientX;
+            _mouseY = evt.clientY;
+            console.log('sanity - detecting mousemove');
+        });
 
         var engine = new RenderEngine();
         
         console.log('sanity - adding ropes');
-        for(var i = 0; i < 50; i++) {
+        for(var i = 0; i < 120; i++) {
             engine.addRope();
         }
         console.log('sanity - rendering engine');
-        
-        engine.animate();
+//        engine.render();
 
-//        setInterval(function() {
+        setInterval(function() {
 //            console.log('sanity - engine render' + engine);
-//            engine.render();
-//        }, 1000 / 60);
+            engine.render();
+        }, 1000 / 60);
         console.log('sanity - did everything');
         
     };
     
-    this.changeHeadPos = function(evt) {
-        _mouseX = Math.floor(evt.upperLip.x * -1000) + 320;
-        _mouseY = Math.floor(evt.upperLip.y * 100) + 170;
+    this.changeHeadPos = function(head) {
+        _mouseX = head.upperLip.x;
+        _mouseY = head.upperLip.y;
     }
     
 };
